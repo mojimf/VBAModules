@@ -1,0 +1,16 @@
+Sub Macro_name()
+
+'
+
+'
+    Dim filePath As String
+    Dim fs As Object
+    
+
+    filePath = "Destinition Path\FileName.extension"
+    Set fs = CreateObject("Scripting.FileSystemObject")
+    If fs.FileExists(filePath) Then
+        fs.DeleteFile filePath
+    End If
+
+
