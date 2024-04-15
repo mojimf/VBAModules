@@ -1,0 +1,30 @@
+Sub UnmergeAndCopy()
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim cell As Range
+    Dim amount As Variant
+    Dim nextCell As Range
+    
+    ' Set the worksheet
+    Set ws = ThisWorkbook.Sheets("Main reviewed") ' Change "Sheet1" to your sheet name
+    
+    ' Find the last row in column B
+    lastRow = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+    
+    ' Loop through each cell in column B
+    For Each cell In ws.Range("c2:c" & lastRow) ' Start from row 2, assuming headers in row 1
+        If cell.MergeCells Then
+            ' Unmerge the cell
+            cell.UnMerge
+        End If
+        If Not IsEmpty(cell) Then
+            amount = cell.Value
+        Else
+            cell.Value = amount
+        End If
+    Next cell
+    
+    ' Clean up
+    Set ws = Nothing
+End Sub
+
