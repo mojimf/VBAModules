@@ -1,0 +1,153 @@
+Sub Macro8()
+'
+' Macro8 Macro
+'
+
+'
+    Dim filePath As String
+    Dim fs As Object
+    Dim SelectedRange As Range
+
+    
+
+    filePath = "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Calls.csv"
+    Set fs = CreateObject("Scripting.FileSystemObject")
+    If fs.FileExists(filePath) Then
+        fs.DeleteFile filePath
+    End If
+    
+    filePath = "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Downdetector Virgin Media.csv"
+    Set fs = CreateObject("Scripting.FileSystemObject")
+    If fs.FileExists(filePath) Then
+        fs.DeleteFile filePath
+    End If
+    
+    filePath = "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Downdetector O2.csv"
+    Set fs = CreateObject("Scripting.FileSystemObject")
+    If fs.FileExists(filePath) Then
+        fs.DeleteFile filePath
+        
+    End If
+
+    Workbooks.Open Filename:= _
+        "https://collab.intranet.systems.private/sites/CNMC/nationaldesk/Operational%20Manager%20Documents/Weekly%20Exec%20Summary%20Files/Weekly%20Report.xlsx" _
+        , UpdateLinks:=0
+        
+    Workbooks.Add
+    ActiveWorkbook.SaveAs Filename:= _
+        "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Calls.csv" _
+        , FileFormat:=xlCSV, CreateBackup:=False
+    
+    Windows("Weekly Report.xlsx").Activate
+    Sheets("Weekly Raw Data").Select
+    Range("A33").Select
+    Selection.End(xlToRight).Select
+    Set SelectedRange = ActiveCell.Offset(0, -8).Resize(1, 9)
+    SelectedRange.Select
+    Selection.Copy
+    Windows("Calls.csv").Activate
+    Range("A1").Select
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+        
+    Range("B1:I1").Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("A2").Select
+    Selection.PasteSpecial Paste:=xlPasteAll, Operation:=xlNone, SkipBlanks:= _
+        False, Transpose:=True
+    Range("B1:k1").Select
+    Application.CutCopyMode = False
+    Selection.ClearContents
+    Columns("A:A").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Week"
+    Range("B1").Select
+    ActiveCell.FormulaR1C1 = "Call Into Care"
+    Range("B2").Select
+    Columns("A:A").Select
+    Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+    Range("A9").Select
+    ActiveCell.FormulaR1C1 = "=+TODAY()-7-MOD(TODAY()-9,7)"
+    Range("A9").Select
+    Selection.NumberFormat = "dd/mm/yyyy"
+    Range("A8").Select
+    ActiveCell.FormulaR1C1 = "=+R[1]C-7"
+    Range("A8").Select
+    Selection.AutoFill Destination:=Range("A2:A8"), Type:=xlFillDefault
+    Range("A2:A8").Select
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Week Start Date"
+    Range("A2").Select
+    Range("B9").Select
+    ActiveCell.FormulaR1C1 = "=""Wk "" & ISOWEEKNUM(RC[-1])"
+    Range("B9").Select
+    Selection.AutoFill Destination:=Range("B2:B9"), Type:=xlFillDefault
+    Range("B2:B9").Select
+    ActiveWorkbook.Save
+    ActiveWindow.Close
+    Windows("Weekly Report.xlsx").Activate
+    ActiveWindow.Close SaveChanges:=False
+    
+    Workbooks.Open Filename:= _
+        "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Downdetector%20O2%20(GB)%20reports.csv" _
+        , UpdateLinks:=0
+    
+    Windows("Downdetector O2 (GB) reports.csv").Activate
+    Range("A1").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+    Workbooks.Add
+    ActiveSheet.Paste
+    Range("A2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Application.CutCopyMode = False
+    Selection.NumberFormat = "dd/mm/yyyy"
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Day"
+    ActiveWorkbook.SaveAs Filename:= _
+        "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Downdetector O2.csv" _
+        , FileFormat:=xlCSV, CreateBackup:=False
+    ActiveWindow.Close
+    Windows("Downdetector O2 (GB) reports.csv").Activate
+    ActiveWindow.Close
+    
+    
+    Workbooks.Open Filename:= _
+        "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Downdetector%20Virgin Media%20(GB)%20reports.csv" _
+        , UpdateLinks:=0
+    
+    Windows("Downdetector Virgin Media (GB) reports.csv").Activate
+    Range("A1").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+    Workbooks.Add
+    ActiveSheet.Paste
+    Range("A2").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Application.CutCopyMode = False
+    Selection.NumberFormat = "dd/mm/yyyy"
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Day"
+    ActiveWorkbook.SaveAs Filename:= _
+        "https://virginmediauk-my.sharepoint.com/personal/m7918124_virginmedia_co_uk/Documents/Red%20Shared%20Folder/Downdetector Virgin Media.csv" _
+        , FileFormat:=xlCSV, CreateBackup:=False
+    ActiveWindow.Close
+    Windows("Downdetector Virgin Media (GB) reports.csv").Activate
+    ActiveWindow.Close
+    
+    
+    MsgBox ("Files are ready to be uploaded to GCP")
+    Windows("Call Into Care & Down Detector v 1.1.xlsm").Activate
+    ActiveWorkbook.Save
+    ActiveWindow.Close
+    
+End Sub
+
+
+
+
